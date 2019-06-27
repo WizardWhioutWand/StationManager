@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>百度地图API自定义地图</title>
+    <!--引用百度地图API-->
+    <script  type="text/javascript" src="js/jquery-3.4.1.js"></script>
+    <script type="text/javascript"  src="js/jquery.inputbox.js"></script>
+    <script type="text/javascript"  src="js/jquery.pager.js"></script>
+    <script type="text/javascript"  src="js/jquery.placeholder.js"></script>
+    <script type="text/javascript"  src="js/jquery.Slide.2.1.1.js"></script>
+    <script src="js/lhgdialog.min.js?skin=iblue"></script>
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=u5CNodaA3rFoWqcKcEhlpfDz"></script>
+</head>
+<script>
+    function savePoint() {
+        frameElement.api.opener.document.getElementById("txt_long").value = $("#location").html().split(",")[0];
+        frameElement.api.opener.document.getElementById("txt_lati").value = $("#location").html().split(",")[1];
+        frameElement.api.opener.$.dialog({ id: 'mapPoint' }).close();
+    }
+</script>
+<body>
+<div  style="height: 30px">城市名:<input id="key" type="text" value=""> <span style="width:40px"></span> <input type="button"  value="查找" onclick="findCity()"/>
+    <span style="width:50px"></span> <input type="button" value="确定" onclick="savePoint()" />&nbsp;&nbsp;  当前经纬度：<span id="location"></span>
+</div>
+<div style="width:740px;height:610px;border:#ccc solid 1px;font-size:12px;margin-top:5px;" id="map"></div>
+</body>
+<script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap() {
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+        addMapOverlay();//向地图添加覆盖物
+    }
+    function createMap() {
+        map = new BMap.Map("map");
+        map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+    }
+    function setMapEvent() {
+        map.enableScrollWheelZoom();
+        map.enableKeyboard();
+        map.enableDragging();
+        map.enableDoubleClickZoom()
+    }
+    function addClickHandler(target, window) {
+        target.addEventListener("click", function () {
+            target.openInfoWindow(window);
+        });
+    }
+    function addMapOverlay() {
+    }
+    //向地图添加控件
+    function addMapControl() {
+        var scaleControl = new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_LEFT });
+        scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+        map.addControl(scaleControl);
+        var navControl = new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_LARGE });
+        map.addControl(navControl);
+        var overviewControl = new BMap.OverviewMapControl({ anchor: BMAP_ANCHOR_BOTTOM_RIGHT, isOpen: true });
+        map.addControl(overviewControl);
+    }
+
+    function findCity() {
+        var city = document.getElementById("key").value;
+        if (city != "") {
+            map.centerAndZoom(city, 11);      // 用城市名设置地图中心点
+        }
+
+    }
+    var map;
+    initMap();
+    map.addEventListener("click", drawLocation);
+    function drawLocation(e) {
+        map.clearOverlays();
+        var marker = new BMap.Marker(e.point);  // 创建标注
+        map.addOverlay(marker);               // 将标注添加到地图中
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        $("#location").html(e.point.lng + "," + e.point.lat);
+    }
+
+    $(function () {
+        var lo = frameElement.api.opener.document.getElementById("txt_long").value;
+        var la = frameElement.api.opener.document.getElementById("txt_lati").value;
+
+            try {
+                var x = lo
+                var y = la
+                var p = new BMap.Point(x, y);
+                map.centerAndZoom(p, 11);
+                var marker = new BMap.Marker(p);  // 创建标注
+                map.addOverlay(marker);               // 将标注添加到地图中
+                marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                $("#location").html(lo+","+la);
+            }
+            catch (e) {
+            }
+
+
+    });
+</script>
+</html>

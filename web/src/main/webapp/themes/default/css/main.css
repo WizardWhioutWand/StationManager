@@ -1,0 +1,49 @@
+
+.btitle {
+    background-color:#266eee;
+    font-size:16px;
+    color:white;
+    padding:5px 15px
+}
+.btool {
+    margin: 10px 0px 5px 20px;
+    font-size:14px;
+}
+.abtn {
+    margin:5px 5px;
+    background-color:#ABD3E9;
+    display:inline;
+    padding:2px 18px;
+    color:white;
+    font-family:'Microsoft YaHei';
+    cursor:pointer;
+    font-size:12px
+
+}
+.bdataGrid {
+    border:0px;
+    background-color:white;
+}
+.bdataGrid th {
+    background-color:#ABD3E9;
+    font-size:14px;
+    height:30px;
+
+}
+.bdataGrid tr {
+    margin-top:2px;
+    line-height:25px;
+}
+.bdataGrid td {
+    background-color:#E1F7EB;
+}
+
+.abtn_blue {
+    font-size:12px;
+    width:120px;
+    height:25px;
+    color:white;
+    padding:5px 10px;
+    background-color:#266EEE;
+    cursor:pointer;
+}
